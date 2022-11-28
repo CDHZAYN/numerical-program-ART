@@ -1,6 +1,6 @@
 package faultZone;
 
-import model.*;
+import util.*;
 
 /**
  * Simulation experiments-abstract class

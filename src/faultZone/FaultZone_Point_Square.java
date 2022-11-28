@@ -1,9 +1,9 @@
 package faultZone;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import model.DomainBoundary;
-import model.Testcase;
+
+import util.DomainBoundary;
+import util.Testcase;
 
 /**
  * Point failure region.

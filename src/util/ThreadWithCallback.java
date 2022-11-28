@@ -1,5 +1,6 @@
-package model;
+package util;
 
+import art.AbstractART;
 import faultZone.FaultZone;
 
 import java.util.concurrent.Callable;

@@ -1,6 +1,7 @@
-package model;
+package art;
 
 import faultZone.FaultZone;
+import util.Testcase;
 
 import java.util.ArrayList;
 
@@ -15,14 +16,14 @@ public abstract class AbstractART {
         Testcase testcase=null;
         //先找到一个输入判断
         do{
-            testcase = Best_candidate();
+            testcase = bestCandidate();
             count++;
             total.add(testcase);
         }while (fz.isCorrect(testcase));
         return count;
     }
 
-    public abstract Testcase Best_candidate();
+    public abstract Testcase bestCandidate();
 
     public abstract void testEfficiency(int pointNum);
 

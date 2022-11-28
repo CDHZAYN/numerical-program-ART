@@ -3,8 +3,8 @@ package faultZone;
 
 import java.util.Random;
 
-import model.DomainBoundary;
-import model.Testcase;
+import util.DomainBoundary;
+import util.Testcase;
 
 /**
  * Strip failure region.

@@ -1,23 +1,11 @@
-package fscs;
+package art;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import javax.tools.Tool;
 
 import faultZone.FaultZone;
-import faultZone.FaultZone_Block;
 import faultZone.FaultZone_Point_Square;
-import faultZone.FaultZone_Strip;
-import model.*;
+import util.*;
 
 /**
  * FSCS 代码实现
@@ -38,7 +26,7 @@ public class FSCS_art extends AbstractART {
 
     //找到在输入空间中，距离其他输入最远的输入，将其作为下一个用于测试的输入返回
     @Override
-    public Testcase Best_candidate() {
+    public Testcase bestCandidate() {
         //总之先生成10个新的候选输入
         this.Candidate.clear();
         this.Candidate = Testcase.generateCandates(10, inputBoundary.getList());
@@ -116,7 +104,7 @@ public class FSCS_art extends AbstractART {
             for (int i = 0; i < 10; i++) {
                 Candidate.add(new Testcase(inputBoundary));
             }
-            testcase = Best_candidate();
+            testcase = bestCandidate();
         }
     }
 

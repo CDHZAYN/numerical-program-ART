@@ -1,31 +1,17 @@
-package simulation;
+package faultZone;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.AbstractList;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-import faultZone.*;
-import fscs.FSCS_art;
-import model.*;
+import art.AbstractART;
+import art.FSCS_art;
+import util.*;
 
-import javax.swing.*;
-
-public class TestEffectiveness {
+public class FaultZoneEffectiveness {
 
     final static double lp = Parameters.lp;
     final static int times = 30; // The times to run experiments

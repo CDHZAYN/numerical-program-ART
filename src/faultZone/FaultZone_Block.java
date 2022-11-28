@@ -1,9 +1,6 @@
 package faultZone;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import model.*;
+import util.*;
 
 /**
  * Block failure region.

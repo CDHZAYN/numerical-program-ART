@@ -1,4 +1,4 @@
-package simulation;
+package util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +26,7 @@ public class StoreResults<E> implements Runnable {
 			}
 			FileWriter stream = new FileWriter(file2);
 			for (int j = 0; j < data2BS.size(); j++) {
-				stream.write(data2BS.get(j).toString() + "\r\n");
+				stream.write(data2BS.get(j).toString() + System.lineSeparator());
 			}
 			stream.flush();
 			stream.close();
