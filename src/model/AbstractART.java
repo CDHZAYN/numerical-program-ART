@@ -10,8 +10,10 @@ public abstract class AbstractART {
     int count=0;
 
 
+    //使用fault zone方法验证效率和可用性
     public int run(FaultZone fz) {
         Testcase testcase=null;
+        //先找到一个输入判断
         do{
             testcase = Best_candidate();
             count++;
