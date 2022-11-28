@@ -11,17 +11,14 @@ import util.*;
  * FSCS 代码实现
  * 论文：2004-ASIAN-Adaptive random testing
  */
-public class FSCS_art extends AbstractART {
+public class FSCS_ART extends AbstractART {
 
     public DomainBoundary inputBoundary = new DomainBoundary();
     int count = 1;
 
-    Double p;
-
-    //用输入和p（用于计算输入间距离，参见57行）来初始化该算法
-    public FSCS_art(DomainBoundary inputBoundary, Double p) {
+    //用输入来初始化该算法
+    public FSCS_ART(DomainBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
-        this.p = p;
     }
 
     //找到在输入空间中，距离其他输入最远的输入，将其作为下一个用于测试的输入返回
@@ -42,7 +39,7 @@ public class FSCS_art extends AbstractART {
             mindist = Double.MAX_VALUE;
             //对候选输入，挨个测试其与已使用过的输入的距离，记录该过程中的最小距离
             for (int j = 0; j < this.total.size(); j++) {
-                double dist = Testcase.Distance(this.Candidate.get(i), this.total.get(j), this.p);
+                double dist = Testcase.Distance(this.Candidate.get(i), this.total.get(j));
                 if (dist < mindist) {
                     mindist = dist;
                 }
@@ -75,7 +72,7 @@ public class FSCS_art extends AbstractART {
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            FSCS_art fscs_block = new FSCS_art(bd, p);
+            FSCS_ART fscs_block = new FSCS_ART(bd);
             //小run一下
             temp = fscs_block.run(fz);
             result.add(temp);

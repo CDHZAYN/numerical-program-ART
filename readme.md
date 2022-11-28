@@ -5,19 +5,18 @@
 * bestCandidate：描述如何找到下一个测试用例。
 * testEfficiency：使用bestCandidate生成测试用例的过程。
 
+## src/dt
+**注意：**
+把群里的第二个zip下下来，里面有origin和mutant文件夹，把他们复制进src/dt里，这两个文件夹太大了，就不传github了
+
 ## src/faultZone
 包括三种faultzone模型：
 * 一个正方体；
 * 一个圆柱（至少差不多是个圆柱）； 
-* 多个小正方体。
-
-包括两种faultzone模型测试标准：
-* 效率测试（FaultZoneEfficiency）：测试生成一定量测试用例的时长。
-* 有效性测试（FaultZoneEffectiveness）：测试找到错误的需要的测试输入次数。
-
+* 多个小正方体
 
 ## src/entry
-包括两种本次大作业要求的度量方法，使用这里面的方法完成整体测试：
+包括两种本次大作业要求的度量方法，均继承自AbstractEntry抽象类，使用这里面的方法完成整体测试：
 * FaultZoneEntry：使用fault zone模型完成模拟测试。
 * RealCodeEntry：使用实际的数值程序完成实际测试。
 

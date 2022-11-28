@@ -28,7 +28,8 @@ public class FaultZone_Strip extends FaultZone {
 	 * @param area failure rate
 	 * @param rate default=0.9
 	 */
-	public FaultZone_Strip(DomainBoundary boundary, double area, double rate) {
+	public FaultZone_Strip(DomainBoundary boundary, double area) {
+		double rate = 0.9;
 		inputDomain = boundary;
 		fail_rate = area;
 		edge = inputDomain.getDimension(0).getRange();
