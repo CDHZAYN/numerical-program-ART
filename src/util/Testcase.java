@@ -61,7 +61,9 @@ public class Testcase {
         ArrayList<Dimension> dim_list = inputDomain.BoundaryData;
         for (int i = 0; i < dim_list.size(); i++) {
             double temp;
-            if (classees[i] == int.class)
+            if (classees[i] == byte.class)
+                temp = (byte) (dim_list.get(i).getMin() + (dim_list.get(i).getRange() + 1) * Math.random());
+            else if (classees[i] == int.class)
                 temp = (int) (dim_list.get(i).getMin() + (dim_list.get(i).getRange() + 1) * Math.random());
             else if (classees[i] == float.class)
                 temp = (float) (dim_list.get(i).getMin() + (dim_list.get(i).getRange()) * Math.random());
