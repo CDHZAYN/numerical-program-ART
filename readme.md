@@ -1,5 +1,10 @@
 # ARTEmpirical
 
+## 补充顺序（也可以看idea的TODO工具）
+1. 确定算法名称，在src/art文件夹中新建类（如NewART）；
+2. 在src/entry/AbstractEntry类中添加对应的算法类（如添加NewART.class）；
+3. 补充main、bestCandidate、testEfficiency三个方法（如NewART）。
+
 ## src/art
 向里面填不同的算法，需要实现AbstractART抽象类的以下方法：
 * bestCandidate：描述如何找到下一个测试用例。
@@ -8,7 +13,7 @@
 ## src/realCodes
 真实的数值程序，origin里是源程序，mutant里是错误的变体程序。
 <br>
-**注意**：这里应该把群里第二个zip里的origin+mutant文件夹复制进src/dt文件夹，然后在idea里把包名改成realCodes，这样才能改文件里依赖的包名（默认为dt，但是为了理解我改成了realCodes，所以要改掉），否则可能会报错。 当然也可以报错之后在entry代码里改。
+**注意**：这里应该把群里第二个zip里的origin+mutant文件夹复制进src/dt文件夹，然后在idea里把包名改成realCodes，这样才能改文件里依赖的包名（默认为dt，但是为了理解我改成了realCodes，所以要改掉），否则可能会报错。 当然也可以报错之后再改。
 
 ## src/faultZone
 包括三种faultzone模型：

@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class AbstractEntry {
 
-    //TODO: 把新增的class添入list里
+    //TODO: 把新增的算法class（如NewART.class）添入下面的List里
     List<Class<? extends AbstractART>> ARTs = new ArrayList<>(Arrays.asList(
             FSCS_ART.class
     ));
