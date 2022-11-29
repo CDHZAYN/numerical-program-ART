@@ -13,7 +13,7 @@
 ## src/realCodes
 真实的数值程序，origin里是源程序，mutant里是错误的变体程序。
 <br>
-**注意**：这里应该把群里第二个zip里的origin+mutant文件夹复制进src/dt文件夹，然后在idea里把包名改成realCodes，这样才能改文件里依赖的包名（默认为dt，但是为了理解我改成了realCodes，所以要改掉），否则可能会报错。 当然也可以报错之后再改。
+**注意**：这里应该把群里第二个zip里的origin+mutant文件夹复制进src/dt文件夹，然后在idea里把包名改成realCodes(不过已经有realCodes文件夹了，所以可能要先把realCodesDriver存到另外的地方，删掉realCodes文件夹，操作完再把realCodesDriver移回来)，这样才能改文件里依赖的包名（默认为dt，但是为了理解我改成了realCodes，所以要改掉），否则可能会报错。 当然也可以报错之后再改。
 
 ## src/faultZone
 包括三种faultzone模型：
