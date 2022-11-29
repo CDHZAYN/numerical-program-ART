@@ -4,6 +4,7 @@ import art.AbstractART;
 import art.FSCS_ART;
 import util.DomainBoundary;
 import util.Parameters;
+import util.StoreResults;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,24 +14,44 @@ import java.util.List;
 
 public abstract class AbstractEntry {
 
-    //TODO: 把新增的算法class（如NewART.class）添入下面的List里
-    List<Class<? extends AbstractART>> ARTs = new ArrayList<>(Arrays.asList(
-            FSCS_ART.class
-    ));
+    private ArrayList<Double> result = new ArrayList<>();
 
-    public ArrayList<Long> testEfficiency(Class<? extends AbstractART> art, DomainBoundary inputBoundary, int testcaseNum) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    static String testingART = "FSCS_ART";
+
+    public double testEfficiency(Class<? extends AbstractART> art, DomainBoundary inputBoundary, int testcaseNum) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         FSCS_ART fscs;
-        ArrayList<Long> result = new ArrayList<>();
+        Long timeSum = Long.valueOf(0);
         Constructor constructor = art.getConstructor(DomainBoundary.class);
         for (int i = 0; i < Parameters.testRoundNum; i++) {
             AbstractART certainArt = (AbstractART) constructor.newInstance(inputBoundary);
             long n1 = System.currentTimeMillis();
             certainArt.testEfficiency(testcaseNum);
             long n2 = System.currentTimeMillis();
+            timeSum += n2 - n1;
         }
-        return result;
+        return (double) timeSum / (double) Parameters.testRoundNum;
     }
 
-    public abstract ArrayList<Integer> testEffectiveness(Class<? extends AbstractART> ART, DomainBoundary inputBoundary, Object faultZoneOrRealCode) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+    public void addResult(double part) {
+        result.add(part);
+    }
 
+    public void storeResult(String filePath) {
+        ArrayList<String> resultStr = new ArrayList<>();
+        int testNum = result.size();
+        int unfoundNum = 0;
+        for (Double rst : result) {
+            resultStr.add(String.valueOf(rst));
+            if (rst.equals(1000.0))
+                ++unfoundNum;
+        }
+        resultStr.add("TOTAL TEST NUM: " + String.valueOf(testNum));
+        resultStr.add("ERROR NOT FOUND TEST NUM: " + String.valueOf(unfoundNum));
+        resultStr.add("ERROR FOUND RATE: " + String.valueOf((double) (testNum - unfoundNum) / (double) testNum));
+        StoreResults<String> storeResults = new StoreResults<>(filePath, resultStr);
+        storeResults.run();
+    }
+
+
+    public abstract double testEffectiveness(Class<? extends AbstractART> ART, DomainBoundary inputBoundary, Object faultZoneOrRealCode) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 }

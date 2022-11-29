@@ -2,8 +2,8 @@
 
 ## 补充顺序（也可以看idea的TODO工具）
 1. 确定算法名称，在src/art文件夹中新建类（如NewART）；
-2. 在src/entry/AbstractEntry类中添加对应的算法类（如添加NewART.class）；
-3. 补充main、bestCandidate、testEfficiency三个方法（如NewART）。
+2. 补充main、bestCandidate、testEfficiency三个方法（如NewART）。
+3. 如果要用entry，把AbstractEntry.java里的testingART字段改成新加的算法名称（如NewART）。
 
 ## src/art
 向里面填不同的算法，需要实现AbstractART抽象类的以下方法：
@@ -11,9 +11,12 @@
 * testEfficiency：使用bestCandidate生成测试用例的过程。
 
 ## src/realCodes
-真实的数值程序，origin里是源程序，mutant里是错误的变体程序。
+真实的数值程序，original里是源程序，mutant里是错误的变体程序。
 <br>
-**注意**：这里应该把群里第二个zip里的origin+mutant文件夹复制进src/dt文件夹，然后在idea里把包名改成realCodes(不过已经有realCodes文件夹了，所以可能要先把realCodesDriver存到另外的地方，删掉realCodes文件夹，操作完再把realCodesDriver移回来)，这样才能改文件里依赖的包名（默认为dt，但是为了理解我改成了realCodes，所以要改掉），否则可能会报错。 当然也可以报错之后再改。
+**注意**：如果要测试realCodeEntry能用，把original和mutant（在q群最后一个zip里）复制进来之后需要：
+1. 把他俩放到src/dt文件夹里；
+2. 把realCodes里的两个类复制进dt里，删掉realCodes文件夹；
+3. 用idea把dt这个文件夹（包）改名成realCodes，用idea是为了保证两个文件夹里的程序的包名耶跟着一起改。
 
 ## src/faultZone
 包括三种faultzone模型：
@@ -22,8 +25,7 @@
 * 多个小正方体。
 
 ## src/entry
-包括两种本次大作业要求的度量方法，均继承自AbstractEntry抽象类，使用
-这里面的方法完成整体测试：
+包括两种本次大作业要求的度量方法，均继承自AbstractEntry抽象类，**使用以下两个类完成生成测试结果**：
 * FaultZoneEntry：使用fault zone模型完成模拟测试。
 * RealCodeEntry：使用实际的数值程序完成实际测试。
 

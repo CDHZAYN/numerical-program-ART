@@ -21,9 +21,6 @@ public class StoreResults<E> implements Runnable {
 	void storeData() {
 		File file2 = new File(filePath);
 		try {
-			if (!file2.exists()) {
-				file2.createNewFile();
-			}
 			FileWriter stream = new FileWriter(file2);
 			for (int j = 0; j < data2BS.size(); j++) {
 				stream.write(data2BS.get(j).toString() + System.lineSeparator());
