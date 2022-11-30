@@ -23,31 +23,41 @@ public class FaultZoneEntry extends AbstractEntry {
         System.out.println("now testing efficiency.");
 
         DomainBoundary domainBoundary = new DomainBoundary(Parameters.defaultDimensionNum, Parameters.defaultDimensionMin, Parameters.defaultDimensionMax);
-        double faultZoneMean = faultZoneEntry.testEfficiency(ARTClass, domainBoundary, Parameters.efficiencyTestcaseNum);
-        System.out.println("Efficiency: " + faultZoneMean);
+        double efficiencyMean = faultZoneEntry.testEfficiency(ARTClass, domainBoundary, Parameters.efficiencyTestcaseNum);
+        System.out.println("Efficiency: " + efficiencyMean);
+        faultZoneEntry.addResult(efficiencyMean);
 
         System.out.println("now testing effectiveness.");
         double[] failrates = new double[]{0.2, 0.1, 0.05};
-        for(int i = 0; i < failrates.length; ++i) {
-            System.out.println("testing: Block-"+ failrates[i]);
+        for (int i = 0; i < failrates.length; ++i) {
+            System.out.println("testing: Block-" + failrates[i]);
             FaultZone faultZone = new FaultZone_Block(domainBoundary, failrates[i]);
-            double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
-            System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean * failrates[i]);
+            double effectivenessMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
+            System.out.println("Effectiveness: " + effectivenessMean);
+            if (effectivenessMean == 1000.0)
+                faultZoneEntry.addResult(effectivenessMean);
+            else
+                faultZoneEntry.addResult(effectivenessMean * failrates[i]);
         }
-        for(int i = 0; i < failrates.length; ++i) {
-            System.out.println("testing: Point_Square-"+ failrates[i]);
+        for (int i = 0; i < failrates.length; ++i) {
+            System.out.println("testing: Point_Square-" + failrates[i]);
             FaultZone faultZone = new FaultZone_Point_Square(domainBoundary, failrates[i]);
-            double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
-            System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean * failrates[i]);
+            double effectivenessMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
+            System.out.println("Effectiveness: " + effectivenessMean);
+            if (effectivenessMean == 1000.0)
+                faultZoneEntry.addResult(effectivenessMean);
+            else
+                faultZoneEntry.addResult(effectivenessMean * failrates[i]);
         }
-        for(int i = 0; i < failrates.length; ++i) {
-            System.out.println("testing: Strip-"+ failrates[i]);
+        for (int i = 0; i < failrates.length; ++i) {
+            System.out.println("testing: Strip-" + failrates[i]);
             FaultZone faultZone = new FaultZone_Strip(domainBoundary, failrates[i]);
-            double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
-            System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean * failrates[i]);
+            double effectivenessMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
+            System.out.println("Effectiveness: " + effectivenessMean);
+            if (effectivenessMean == 1000.0)
+                faultZoneEntry.addResult(effectivenessMean);
+            else
+                faultZoneEntry.addResult(effectivenessMean * failrates[i]);
         }
 
         System.out.println("now storing result.");
@@ -70,6 +80,6 @@ public class FaultZoneEntry extends AbstractEntry {
             timeSum += temp;
         }
 
-        return (double)timeSum / (double)Parameters.testRoundNum;
+        return (double) timeSum / (double) Parameters.testRoundNum;
     }
 }

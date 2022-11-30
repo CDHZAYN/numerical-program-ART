@@ -16,7 +16,7 @@ public abstract class AbstractEntry {
 
     private ArrayList<Double> result = new ArrayList<>();
 
-    static String testingART = "FSCS_ART";
+    static String testingART = "TPP_ART";
 
     public double testEfficiency(Class<? extends AbstractART> art, DomainBoundary inputBoundary, int testcaseNum) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         FSCS_ART fscs;
@@ -38,13 +38,16 @@ public abstract class AbstractEntry {
 
     public void storeResult(String filePath) {
         ArrayList<String> resultStr = new ArrayList<>();
-        int testNum = result.size();
+        int testNum = result.size() - 1;
         int unfoundNum = 0;
-        for (Double rst : result) {
-            resultStr.add(String.valueOf(rst));
-            if (rst.equals(1000.0))
+        for (int i = 1; i < result.size(); ++i) {
+            if(result.get(i).equals(1000.0)) {
+                resultStr.add("UNFOUND");
                 ++unfoundNum;
+            } else
+                resultStr.add(String.valueOf(result.get(i)));
         }
+        resultStr.add("EFFICIENCY: "+ String.valueOf(result.get(0)));
         resultStr.add("TOTAL TEST NUM: " + String.valueOf(testNum));
         resultStr.add("ERROR NOT FOUND TEST NUM: " + String.valueOf(unfoundNum));
         resultStr.add("ERROR FOUND RATE: " + String.valueOf((double) (testNum - unfoundNum) / (double) testNum));

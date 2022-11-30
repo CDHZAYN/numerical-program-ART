@@ -22,7 +22,7 @@ public class PartitionTree {
     private List<Testcase> testcaseList = new ArrayList<>();
 
     // 用于创建根划分树节点
-    PartitionTree(DomainBoundary domainBoundary) {
+    public PartitionTree(DomainBoundary domainBoundary) {
         this.domainBoundary = domainBoundary;
     }
 
@@ -31,14 +31,16 @@ public class PartitionTree {
 
         // 确定进行划分的维度是哪几个，用isPartitionDim记录
         List<Dimension> dimensions = domainBoundary.getList();
-        List<Boolean> isPartitionDim = new ArrayList<>(dimensions.size());
+        List<Boolean> isPartitionDim = new ArrayList<>();
+        for(int i = 0; i < domainBoundary.dimensionOfInputDomain(); ++i)
+            isPartitionDim.add(false);
         int partitionDim = 0;
         for (int i = 0; i < partitionDimSum; ++i) {
             int tmp;
             do {
                 tmp = (int) (Math.random() * dimensions.size());
             } while (tmp < dimensions.size() && isPartitionDim.get(tmp));
-            isPartitionDim.add(tmp, true);
+            isPartitionDim.set(tmp, true);
         }
 
         // 如果有指定划分点，则以划分点为中心划分；
@@ -64,13 +66,16 @@ public class PartitionTree {
                     double pttPoint = dmss.get(i).getMin() + dmss.get(i).getRange() / 2;
                     if (partitionPoint != null)
                         pttPoint = partitionPoint.getValue(i);
-                    Dimension dms = dmss.get(i);
-                    dms.setMin(pttPoint);
-                    dmss.set(i, dms);
-                    newDimensionsList.add(dmss);
-                    dms.setMax(pttPoint);
-                    dmss.set(i, dms);
-                    newDimensionsList.add(dmss);
+
+                    List<Dimension> dmss1 = new ArrayList<>(dmss);
+                    Dimension dms1 = new Dimension(pttPoint, dmss1.get(i).getMax());
+                    dmss1.set(i, dms1);
+                    newDimensionsList.add(dmss1);
+
+                    List<Dimension> dmss2 = new ArrayList<>(dmss);
+                    Dimension dms2 = new Dimension(dmss2.get(i).getMin(), pttPoint);
+                    dmss2.set(i, dms2);
+                    newDimensionsList.add(dmss2);
                 }
                 dimensionsList = newDimensionsList;
             }
@@ -108,6 +113,8 @@ public class PartitionTree {
         PartitionTree result = null;
         if (domainBoundary.isInside(testcase))
             testcaseList.add(testcase);
+        else
+            return null;
         if (directChildren.isEmpty())
             return this;
         for (PartitionTree child : directChildren) {
@@ -123,15 +130,41 @@ public class PartitionTree {
             addTestcase(testcase);
     }
 
-    public List<PartitionTree> getLeaveTreeNode() {
+    //获取所有的“最细”划分
+    public List<PartitionTree> getLeaveTreeNodes() {
         List<PartitionTree> result = new ArrayList<>();
         result.add(this);
-        while(result.get(0).directChildren.isEmpty()) {
-            for(PartitionTree child : directChildren)
-                result.add(child);
-            result.remove(0);
+
+        //标识result列表中是否还有节点新增
+        boolean isInProcess = true;
+        while(isInProcess) {
+            isInProcess = false;
+            List<PartitionTree> newNodes = new ArrayList<>();
+            for(PartitionTree node : result){
+                if(!node.directChildren.isEmpty()) {
+                    isInProcess = true;
+                    for (PartitionTree child : node.directChildren)
+                        newNodes.add(child);
+                }
+                else{
+                    newNodes.add(node);
+                }
+            }
+            result = newNodes;
         }
         return result;
+    }
+
+    public double getSize(){
+        return domainBoundary.sizeOfInputDomain();
+    }
+
+    public DomainBoundary getDomainBoundary(){
+        return domainBoundary;
+    }
+
+    public ArrayList<Testcase> gettestcaseList(){
+        return (ArrayList<Testcase>) testcaseList;
     }
 
 

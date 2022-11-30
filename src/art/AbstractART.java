@@ -1,13 +1,11 @@
 package art;
 
 import faultZone.FaultZone;
-import realCodes.RealCodeRunner;
 import realCodes.RealCodesDriver;
 import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
@@ -15,7 +13,7 @@ public abstract class AbstractART {
 
     public DomainBoundary inputBoundary = new DomainBoundary();
     public ArrayList<Testcase> total = new ArrayList<>();
-    public ArrayList<Testcase> Candidate = new ArrayList<>();
+    public ArrayList<Testcase> candidate = new ArrayList<>();
     int count = 0;
 
 
