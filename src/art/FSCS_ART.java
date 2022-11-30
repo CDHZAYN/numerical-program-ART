@@ -13,7 +13,6 @@ import util.*;
  */
 public class FSCS_ART extends AbstractART {
 
-    public DomainBoundary inputBoundary = new DomainBoundary();
     int count = 1;
 
     //用输入来初始化该算法
@@ -25,21 +24,21 @@ public class FSCS_ART extends AbstractART {
     @Override
     public Testcase bestCandidate() {
         //总之先生成10个新的候选输入
-        this.Candidate.clear();
-        this.Candidate = Testcase.generateCandates(10, inputBoundary.getList());
+        this.candidate.clear();
+        this.candidate = Testcase.generateCandates(10, inputBoundary.getList());
 
         Testcase p = null;
         double mindist, maxmin = 0;
         int index = -1;
         //如果之前没有进行过候选输入选择，则随机生成一个输入当作找到了
         if (total.size() == 0) {
-            return Candidate.get(new Random().nextInt(Candidate.size()));
+            return candidate.get(new Random().nextInt(candidate.size()));
         }
-        for (int i = 0; i < this.Candidate.size(); i++) {
+        for (int i = 0; i < this.candidate.size(); i++) {
             mindist = Double.MAX_VALUE;
             //对候选输入，挨个测试其与已使用过的输入的距离，记录该过程中的最小距离
             for (int j = 0; j < this.total.size(); j++) {
-                double dist = Testcase.Distance(this.Candidate.get(i), this.total.get(j));
+                double dist = Testcase.Distance(this.candidate.get(i), this.total.get(j));
                 if (dist < mindist) {
                     mindist = dist;
                 }
@@ -51,7 +50,7 @@ public class FSCS_ART extends AbstractART {
             }
         }
 
-        return this.Candidate.get(index);
+        return this.candidate.get(index);
     }
 
 
@@ -97,9 +96,9 @@ public class FSCS_ART extends AbstractART {
         Testcase testcase = new Testcase(inputBoundary);
         while (total.size() < pointNum) { // 随机生成n个候选的测试用例
             total.add(testcase);
-            Candidate = new ArrayList<Testcase>();
+            candidate = new ArrayList<Testcase>();
             for (int i = 0; i < 10; i++) {
-                Candidate.add(new Testcase(inputBoundary));
+                candidate.add(new Testcase(inputBoundary));
             }
             testcase = bestCandidate();
         }
