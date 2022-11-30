@@ -1,7 +1,7 @@
 # ARTEmpirical
 
 ## 补充顺序（也可以看idea的TODO工具）
-1. 确定算法名称，在src/art文件夹中新建类（如NewART）；
+1. 确定算法名称，在src/art文件夹中新建类（如NewART），填写注释；
 2. 补充main、bestCandidate、testEfficiency三个方法（如NewART）和以DomainBoundary作为参数的该类的初始化方法（参见NewART）。
 3. 如果要用entry，把AbstractEntry.java里的testingART字段改成新加的算法名称（如NewART）。
 
