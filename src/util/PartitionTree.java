@@ -1,8 +1,4 @@
-package faultZone;
-
-import util.Dimension;
-import util.DomainBoundary;
-import util.Testcase;
+package util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +51,7 @@ public class PartitionTree {
             child.addTestcases(testcaseList);
     }
 
+    //将分割过的划分放在一个列表中，依次在每个需要划分的维度，把列表中的所有划分再次分割。
     private List<DomainBoundary> getPartitionedDomainBoundaries(List<Dimension> dimensions, List<Boolean> isPartitionDim,
                                                                 Testcase partitionPoint) {
         List<List<Dimension>> dimensionsList = new ArrayList<>();

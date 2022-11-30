@@ -4,6 +4,8 @@
 1. 确定算法名称，在src/art文件夹中新建类（如NewART），填写注释；
 2. 补充main、bestCandidate、testEfficiency三个方法（如NewART）和以DomainBoundary作为参数的该类的初始化方法（参见NewART）。
 > 事实上testEfficiency可以照抄，TPP_ART里的更简单一点。
+
+>事实上main貌似也可以照抄，把算法名一改就行。
 3. 如果要用entry，把AbstractEntry.java里的testingART字段改成新加的算法名称（如NewART）。
 
 ## src/art
@@ -25,8 +27,6 @@
 * FaultZone_Strip：一个圆柱（至少差不多是个圆柱）；
 * FaultZone_Point_Square：多个小正方体。
 
-以及一个辅助记录输入空间划分的类：
-* PartitionTree，树状划分记录，具体看注释，可能有bug，待修。
 
 ## src/entry
 包括两种本次大作业要求的度量方法，均继承自AbstractEntry抽象类，**使用以下两个类完成生成测试结果**：
@@ -40,3 +40,6 @@
 * Parameters：本项目统一的参数。
 * StoreResults：保存测试用例于指定的文件。
 * TestCase：根据指定DomainBoundary生成的测试用例，还包含一些测试用例需要的方法。
+* 
+以及一个辅助记录输入空间划分的类：
+* PartitionTree，树状划分记录，具体看注释。

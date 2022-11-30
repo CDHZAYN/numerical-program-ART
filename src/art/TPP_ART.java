@@ -2,8 +2,7 @@ package art;
 
 import faultZone.FaultZone;
 import faultZone.FaultZone_Point_Square;
-import faultZone.PartitionTree;
-import util.Dimension;
+import util.PartitionTree;
 import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
