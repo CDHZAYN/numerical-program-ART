@@ -1,21 +1,17 @@
 package art;
 
-import util.DomainBoundary;
 import util.Testcase;
 
 /**
-* 此处附上对该算法的论文、年份、内容等说明。例：
-* NewART（2022）
-* 论文： The Art of ART
-* 大致方法：将输入空间划分，每个小输入空间的已测试输入达到指定数量时，再次对每一个小输入空间划分。
+ * DAC—ART（2013 13th International Conference on Quality Software）
+ * 论文：The ART of Divide and Conquer
+ * 大致方法：
+ * 1、平均划分输入空间，
+ * 2、找到其中已测试输入最少的划分进行测试，
+ * 3、不断循环2直到每个划分中的已测试输入均达到指定数量。
+ * 4、再次平均划分每个划分。
  */
-public class NewART extends AbstractART{
-
-    private DomainBoundary inputBoundary;
-
-    public NewART(DomainBoundary inputBoundary){
-        this.inputBoundary = inputBoundary;
-    }
+public class DAC_ART extends AbstractART{
 
     public static void main(String args[]){
         //TODO:能单独运行该算法的入口

@@ -2,7 +2,7 @@
 
 ## 补充顺序（也可以看idea的TODO工具）
 1. 确定算法名称，在src/art文件夹中新建类（如NewART）；
-2. 补充main、bestCandidate、testEfficiency三个方法（如NewART）。
+2. 补充main、bestCandidate、testEfficiency三个方法（如NewART）和以DomainBoundary作为参数的该类的初始化方法（参见NewART）。
 3. 如果要用entry，把AbstractEntry.java里的testingART字段改成新加的算法名称（如NewART）。
 
 ## src/art
@@ -19,10 +19,13 @@
 3. 用idea把dt这个文件夹（包）改名成realCodes，用idea是为了保证两个文件夹里的程序的包名耶跟着一起改。
 
 ## src/faultZone
-包括三种faultzone模型：
-* 一个正方体；
-* 一个圆柱（至少差不多是个圆柱）；
-* 多个小正方体。
+包含三种faultzone模型：
+* FaultZone_Block：一个正方体；
+* FaultZone_Strip：一个圆柱（至少差不多是个圆柱）；
+* FaultZone_Point_Square：多个小正方体。
+
+以及一个辅助记录输入空间划分的类：
+* PartitionTree，树状划分记录，具体看注释，可能有bug，待修。
 
 ## src/entry
 包括两种本次大作业要求的度量方法，均继承自AbstractEntry抽象类，**使用以下两个类完成生成测试结果**：

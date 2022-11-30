@@ -13,7 +13,6 @@ import util.*;
  */
 public class FSCS_ART extends AbstractART {
 
-    public DomainBoundary inputBoundary = new DomainBoundary();
     int count = 1;
 
     //用输入来初始化该算法

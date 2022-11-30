@@ -3,6 +3,7 @@ package art;
 import faultZone.FaultZone;
 import realCodes.RealCodeRunner;
 import realCodes.RealCodesDriver;
+import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
 
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.concurrent.*;
 
 public abstract class AbstractART {
+
+    public DomainBoundary inputBoundary = new DomainBoundary();
     public ArrayList<Testcase> total = new ArrayList<>();
     public ArrayList<Testcase> Candidate = new ArrayList<>();
     int count = 0;
@@ -61,7 +64,7 @@ public abstract class AbstractART {
                 System.out.println("incorrect exception triggered.");
                 return count;
             }
-            exec.shutdown();  // 关闭线程池
+            exec.shutdown();
 
             if (!isCorrect)
                 break;

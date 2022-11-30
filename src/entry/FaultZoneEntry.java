@@ -33,21 +33,21 @@ public class FaultZoneEntry extends AbstractEntry {
             FaultZone faultZone = new FaultZone_Block(domainBoundary, failrates[i]);
             double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
             System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean);
+            faultZoneEntry.addResult(realCodeMean * failrates[i]);
         }
         for(int i = 0; i < failrates.length; ++i) {
             System.out.println("testing: Point_Square-"+ failrates[i]);
             FaultZone faultZone = new FaultZone_Point_Square(domainBoundary, failrates[i]);
             double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
             System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean);
+            faultZoneEntry.addResult(realCodeMean * failrates[i]);
         }
         for(int i = 0; i < failrates.length; ++i) {
             System.out.println("testing: Strip-"+ failrates[i]);
             FaultZone faultZone = new FaultZone_Strip(domainBoundary, failrates[i]);
             double realCodeMean = faultZoneEntry.testEffectiveness(ARTClass, domainBoundary, faultZone);
             System.out.println("Effectiveness: " + realCodeMean);
-            faultZoneEntry.addResult(realCodeMean);
+            faultZoneEntry.addResult(realCodeMean * failrates[i]);
         }
 
         System.out.println("now storing result.");
