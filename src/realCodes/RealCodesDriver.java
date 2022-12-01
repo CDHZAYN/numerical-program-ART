@@ -134,8 +134,8 @@ public class RealCodesDriver {
                 originResult = (double) originMethod.invoke(originObject, generateIntListParam(testcase, 0));
                 mutantResult = (double) mutantMethod.invoke(mutantObject, generateIntListParam(testcase, 0));
             } else if (realCodeName.equals("Remainder")) {
-                originResult = (double) originMethod.invoke(originObject, (int) testcase.getValue(0), (int) testcase.getValue(1));
-                mutantResult = (double) mutantMethod.invoke(mutantObject, (int) testcase.getValue(0), (int) testcase.getValue(1));
+                originResult = (int) originMethod.invoke(originObject, (int) testcase.getValue(0), (int) testcase.getValue(1));
+                mutantResult = (int) mutantMethod.invoke(mutantObject, (int) testcase.getValue(0), (int) testcase.getValue(1));
             } else if (realCodeName.equals("Triangle")) {
                 originResult = (double) originMethod.invoke(originObject, (int) testcase.getValue(0), (int) testcase.getValue(1), (int) testcase.getValue(2));
                 mutantResult = (double) mutantMethod.invoke(mutantObject, (int) testcase.getValue(0), (int) testcase.getValue(1), (int) testcase.getValue(2));
@@ -150,6 +150,7 @@ public class RealCodesDriver {
                 rst = true;
         } catch (Exception e) {
             e.printStackTrace();
+            rst = false;
         }
         return rst;
     }

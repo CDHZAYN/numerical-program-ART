@@ -1,8 +1,4 @@
-package faultZone;
-
-import util.Dimension;
-import util.DomainBoundary;
-import util.Testcase;
+package util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +28,7 @@ public class PartitionTree {
         // 确定进行划分的维度是哪几个，用isPartitionDim记录
         List<Dimension> dimensions = domainBoundary.getList();
         List<Boolean> isPartitionDim = new ArrayList<>();
-        for(int i = 0; i < domainBoundary.dimensionOfInputDomain(); ++i)
+        for (int i = 0; i < domainBoundary.dimensionOfInputDomain(); ++i)
             isPartitionDim.add(false);
         int partitionDim = 0;
         for (int i = 0; i < partitionDimSum; ++i) {
@@ -55,6 +51,7 @@ public class PartitionTree {
             child.addTestcases(testcaseList);
     }
 
+    //将分割过的划分放在一个列表中，依次在每个需要划分的维度，把列表中的所有划分再次分割。
     private List<DomainBoundary> getPartitionedDomainBoundaries(List<Dimension> dimensions, List<Boolean> isPartitionDim,
                                                                 Testcase partitionPoint) {
         List<List<Dimension>> dimensionsList = new ArrayList<>();
@@ -137,16 +134,15 @@ public class PartitionTree {
 
         //标识result列表中是否还有节点新增
         boolean isInProcess = true;
-        while(isInProcess) {
+        while (isInProcess) {
             isInProcess = false;
             List<PartitionTree> newNodes = new ArrayList<>();
-            for(PartitionTree node : result){
-                if(!node.directChildren.isEmpty()) {
+            for (PartitionTree node : result) {
+                if (!node.directChildren.isEmpty()) {
                     isInProcess = true;
                     for (PartitionTree child : node.directChildren)
                         newNodes.add(child);
-                }
-                else{
+                } else {
                     newNodes.add(node);
                 }
             }
@@ -155,16 +151,26 @@ public class PartitionTree {
         return result;
     }
 
-    public double getSize(){
+    public PartitionTree getOneLeaf(){
+        if(this.directChildren.isEmpty())
+            return this;
+        return this.directChildren.get(0).getOneLeaf();
+    }
+
+    public double getSize() {
         return domainBoundary.sizeOfInputDomain();
     }
 
-    public DomainBoundary getDomainBoundary(){
+    public DomainBoundary getDomainBoundary() {
         return domainBoundary;
     }
 
-    public ArrayList<Testcase> gettestcaseList(){
+    public ArrayList<Testcase> gettestcaseList() {
         return (ArrayList<Testcase>) testcaseList;
+    }
+
+    public int getTestcaseNum() {
+        return testcaseList.size();
     }
 
 

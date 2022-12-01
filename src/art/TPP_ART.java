@@ -2,8 +2,7 @@ package art;
 
 import faultZone.FaultZone;
 import faultZone.FaultZone_Point_Square;
-import faultZone.PartitionTree;
-import util.Dimension;
+import util.PartitionTree;
 import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
@@ -46,15 +45,15 @@ public class TPP_ART extends AbstractART {
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            FSCS_ART fscs_block = new FSCS_ART(bd);
+            TPP_ART tpp_ART = new TPP_ART(bd);
             //小run一下
-            temp = fscs_block.runWithFaultZone(fz);
+            temp = tpp_ART.runWithFaultZone(fz);
             result.add(temp);
             System.out.println("第" + i + "次试验F_Measure：" + temp);
             sums += temp;
         }
 
-        System.out.println("FSCS_block当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("TPP_ART当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }
@@ -75,7 +74,7 @@ public class TPP_ART extends AbstractART {
         }
         //在找到的该节点范围内生成10个测试用例，找到与已测试距离最大的测试用例。
         candidate = Testcase.generateCandates(10, maxSizeLeaf.getDomainBoundary().getList());
-        if(maxSizeLeaf.gettestcaseList().isEmpty()){
+        if (maxSizeLeaf.gettestcaseList().isEmpty()) {
             partitionTree.addTestcase(candidate.get(0));
             return candidate.get(0);
         }

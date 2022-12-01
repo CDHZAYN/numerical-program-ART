@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class RealCodeEntry extends AbstractEntry {
 
-    private static String testingCodeName = "Bessj";
+    private static String testingCodeName = "Remainder";
 
     public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RealCodeEntry realCodeEntry = new RealCodeEntry();
