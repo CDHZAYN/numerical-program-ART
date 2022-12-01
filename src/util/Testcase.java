@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.lang.Math;
 
 public class Testcase {
     public ArrayList<Double> list = new ArrayList<>();
@@ -18,6 +20,7 @@ public class Testcase {
         list = new ArrayList<>();
     }
 
+    public int n; // Î¬¶È
     /**
      * Random generate a test case according to the dim_list
      *
@@ -140,6 +143,11 @@ public class Testcase {
         return Candidate;
     }
 
+    public static Testcase generateCandate(ArrayList<Dimension> dimlist){
+        Testcase tc = new Testcase(dimlist);
+        return tc;
+    }
+
     /**
      * Obtain the Euclidean Distancee between $testcase$ and $testcase2$
      */
@@ -181,6 +189,7 @@ public class Testcase {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Read the file, generate test cases according to beginLine and endline
@@ -234,4 +243,6 @@ public class Testcase {
     public int size() {
         return list.size();
     }
+    
+
 }
