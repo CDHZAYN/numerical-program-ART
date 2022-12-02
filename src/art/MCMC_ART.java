@@ -1,53 +1,52 @@
 package art;
 
-        import java.util.*;
+import java.util.*;
 
-        import faultZone.FaultZone;
-        import faultZone.FaultZone_Point_Square;
-        import util.*;
+import faultZone.FaultZone;
+import faultZone.FaultZone_Point_Square;
+import util.*;
 
 /**
- * MCMC£¨2013£©
- * ÂÛÎÄ£ºEnhancing Performance of Random Testing through Markov Chain Monte Carlo Methods
- * ´óÖÂ·½·¨£º
- * 1. Ëæ»úÉú³ÉÒ»¸ö²âÊÔÓÃÀı½øĞĞ²âÊÔ
- * 2. Ñ¡ÔñÒ»¸öĞÂµÄÓÃÀı£¬Éú³ÉÒ»¸öËæ»úÊıU£¬Èç¹ûUĞ¡ÓÚµÈÓÚ¿É½ÓÊÜµÄ¿ÉÄÜÖµ£¬ÈÏÎªĞÂÓÃÀıÊÇÓĞĞ§µÄ£¬·´Ö®ÔòÖØĞÂÑ¡ÔñÓÃÀı
+ * MCMCï¼ˆ2013ï¼‰
+ * è®ºæ–‡ï¼šEnhancing Performance of Random Testing through Markov Chain Monte Carlo Methods
+ * å¤§è‡´æ–¹æ³•ï¼š
+ * 1. éšæœºç”Ÿæˆä¸€ä¸ªæµ‹è¯•ç”¨ä¾‹è¿›è¡Œæµ‹è¯•
+ * 2. é€‰æ‹©ä¸€ä¸ªæ–°çš„ç”¨ä¾‹ï¼Œç”Ÿæˆä¸€ä¸ªéšæœºæ•°Uï¼Œå¦‚æœUå°äºç­‰äºå¯æ¥å—çš„å¯èƒ½å€¼ï¼Œè®¤ä¸ºæ–°ç”¨ä¾‹æ˜¯æœ‰æ•ˆçš„ï¼Œåä¹‹åˆ™é‡æ–°é€‰æ‹©ç”¨ä¾‹
  */
-
-public class MCMC_ART extends AbstractART{
+public class MCMC_ART extends AbstractART {
 
     public MCMC_ART(DomainBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
     }
 
-    public static void main(String args[]){
-        int times = 3000;//Ò»´ÎÖ´ĞĞ£¬¸ÃËã·¨¾ÍÖØ¸´3000´Î
-        long sums = 0;// ³õÊ¼»¯Ê¹ÓÃµÄ²âÊÔÓÃÀıÊı
-        int temp = 0;// ³õÊ¼»¯²âÊÔÓÃÀıÂäÔÚÊ§Ğ§ÓòµÄÊ¹ÓÃµÄ²âÊÔÓÃÀıµÄ¸öÊı
+    public static void main(String args[]) {
+        int times = 3000;//Ò»ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½Ø¸ï¿½3000ï¿½ï¿½
+        long sums = 0;// ï¿½ï¿½Ê¼ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        int temp = 0;// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§Ğ§ï¿½ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
 
         ArrayList<Integer> result = new ArrayList<>();
 
-        //Í³Ò»p=2£¬±íÊ¾¼ÆËãÊäÈë¼ä¾àÀë°´Õı³£·½·¨¼ÆËã£¨¸÷Î¬¶È¾àÀëÆ½·½ºÍ¿ªÆ½·½£©
+        //Í³Ò»p=2ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¨ï¿½ï¿½Î¬ï¿½È¾ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Í¿ï¿½Æ½ï¿½ï¿½ï¿½ï¿½
         double p = Parameters.lp;
         double failrate = 0.005;
         int dimension = 2;
-        //¶şÎ¬ÊäÈë£¨¼´Ò»´ÎÊäÈëÁ½¸ö²ÎÊı£©£¬Á½¸öÊıÖµ²ÎÊıµÄÉÏÏŞ£¨5000£©¡¢ÏÂÏŞ£¨5000£©ÏàÍ¬
+        //ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ë£¨ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş£ï¿½5000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş£ï¿½5000ï¿½ï¿½ï¿½ï¿½Í¬
         DomainBoundary bd = new DomainBoundary(dimension, -5000, 5000);
 
         for (int i = 1; i <= times; i++) {
-            //Ö¸¶¨Ê¹ÓÃÕâÖÖfault zone
+            //Ö¸ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
             MCMC_ART mcmc_art = new MCMC_ART(bd);
-            //Ğ¡runÒ»ÏÂ
+            //Ğ¡runÒ»ï¿½ï¿½
             temp = mcmc_art.runWithFaultZone(fz);
             result.add(temp);
-            System.out.println("µÚ" + i + "´ÎÊÔÑéF_Measure£º" + temp);
+            System.out.println("ï¿½ï¿½" + i + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F_Measureï¿½ï¿½" + temp);
             sums += temp;
         }
 
-        System.out.println("MCMC_ARTµ±Ç°²ÎÊı£ºdimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
-        System.out.println("Fm: " + sums / (double) times + "  ÇÒ×îºóµÄFart/Frt: "
-                + sums / (double) times * failrate);// Æ½¾ùÃ¿´ÎÊ¹ÓÃµÄ²âÊÔÓÃÀıÊı
+        System.out.println("MCMC_ARTï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("Fm: " + sums / (double) times + "  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fart/Frt: "
+                + sums / (double) times * failrate);// Æ½ï¿½ï¿½Ã¿ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     @Override
@@ -57,17 +56,17 @@ public class MCMC_ART extends AbstractART{
         ArrayList<Testcase> cases = new ArrayList<>();
         double rand;
         Testcase tc = new Testcase(inputBoundary);
-        do{
+        do {
             tc = new Testcase(inputBoundary);
             rand = Math.random();
-        }while(rand < 1.0 - fail_rate);
+        } while (rand < 1.0 - fail_rate);
         return tc;
     }
 
     @Override
-    public void testEfficiency(int pointNum) { // ¼ÆËãĞ§ÂÊ²âÊÔ
+    public void testEfficiency(int pointNum) { // ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½Ê²ï¿½ï¿½ï¿½
         Testcase testcase = new Testcase(inputBoundary);
-        while (total.size() < pointNum) { // Ëæ»úÉú³Én¸öºòÑ¡µÄ²âÊÔÓÃÀı
+        while (total.size() < pointNum) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             total.add(testcase);
             candidate = new ArrayList<Testcase>();
             for (int i = 0; i < 10; i++) {

@@ -140,6 +140,8 @@ public class KDFC_ART extends AbstractART{
     }
 
     public void insertPointByTurn(Testcase tc) { // 轮流各个维度向tree中插入新的节点p
+        if(root == null)
+            root = new Node();
         if (root.tc == null) { // 如果root节点中的p点为空
             root.tc = tc;
             root.spilt = 0; // 第一层设置分裂为x

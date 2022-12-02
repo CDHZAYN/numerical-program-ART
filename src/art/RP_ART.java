@@ -7,16 +7,16 @@ import faultZone.FaultZone_Point_Square;
 import util.*;
 
 /**
- * RP-ART£¨2004£©
- * ÂÛÎÄ£ºAdaptive Random Testing Through Dynamic Partitioning
- * ´óÖÂ·½·¨£º
- * 1. Ê×ÏÈ²âÊÔËæ»úÉú³ÉµÄÓÃÀı1£¬²¢Éú³ÉºòÑ¡ÓÃÀı×é
- * 2. ÕÒµ½¾àÀë1×îÔ¶µÄ¾àÀë2£¬²¢Í¨¹ıËæ»úÊı½«ºòÑ¡ÓÃÀı×é½øĞĞËæ»ú»®·Ö
+ * RP_ARTï¼ˆ2004ï¼‰
+ * è®ºæ–‡ï¼šAdaptive Random Testing Through Dynamic Partitioning
+ * å¤§è‡´æ–¹æ³•ï¼š
+ * 1. é¦–å…ˆæµ‹è¯•éšæœºç”Ÿæˆçš„ç”¨ä¾‹1ï¼Œå¹¶ç”Ÿæˆå€™é€‰ç”¨ä¾‹ç»„
+ * 2. æ‰¾åˆ°è·ç¦»1æœ€è¿œçš„è·ç¦»2ï¼Œå¹¶é€šè¿‡éšæœºæ•°å¯¹å€™é€‰åŸŸè¿›è¡Œéšæœºåˆ’åˆ†
  */
 
 public class RP_ART extends AbstractART{
 
-    //ÓÃÊäÈëÀ´³õÊ¼»¯¸ÃËã·¨
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
     public RP_ART(DomainBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
         partitionTree = new PartitionTree(inputBoundary);
@@ -24,33 +24,33 @@ public class RP_ART extends AbstractART{
     public PartitionTree partitionTree;
 
     public static void main(String args[]){
-        int times = 3000;//Ò»´ÎÖ´ĞĞ£¬¸ÃËã·¨¾ÍÖØ¸´3000´Î
-        long sums = 0;// ³õÊ¼»¯Ê¹ÓÃµÄ²âÊÔÓÃÀıÊı
-        int temp = 0;// ³õÊ¼»¯²âÊÔÓÃÀıÂäÔÚÊ§Ğ§ÓòµÄÊ¹ÓÃµÄ²âÊÔÓÃÀıµÄ¸öÊı
+        int times = 3000;//Ò»ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½Ø¸ï¿½3000ï¿½ï¿½
+        long sums = 0;// ï¿½ï¿½Ê¼ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        int temp = 0;// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§Ğ§ï¿½ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
 
         ArrayList<Integer> result = new ArrayList<>();
 
-        //Í³Ò»p=2£¬±íÊ¾¼ÆËãÊäÈë¼ä¾àÀë°´Õı³£·½·¨¼ÆËã£¨¸÷Î¬¶È¾àÀëÆ½·½ºÍ¿ªÆ½·½£©
+        //Í³Ò»p=2ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¨ï¿½ï¿½Î¬ï¿½È¾ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Í¿ï¿½Æ½ï¿½ï¿½ï¿½ï¿½
         double p = Parameters.lp;
         double failrate = 0.005;
         int dimension = 2;
-        //¶şÎ¬ÊäÈë£¨¼´Ò»´ÎÊäÈëÁ½¸ö²ÎÊı£©£¬Á½¸öÊıÖµ²ÎÊıµÄÉÏÏŞ£¨5000£©¡¢ÏÂÏŞ£¨5000£©ÏàÍ¬
+        //ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ë£¨ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş£ï¿½5000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş£ï¿½5000ï¿½ï¿½ï¿½ï¿½Í¬
         DomainBoundary bd = new DomainBoundary(dimension, -5000, 5000);
 
         for (int i = 1; i <= times; i++) {
-            //Ö¸¶¨Ê¹ÓÃÕâÖÖfault zone
+            //Ö¸ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
             RP_ART RP_art = new RP_ART(bd);
-            //Ğ¡runÒ»ÏÂ
+            //Ğ¡runÒ»ï¿½ï¿½
             temp = RP_art.runWithFaultZone(fz);
             result.add(temp);
-            System.out.println("µÚ" + i + "´ÎÊÔÑéF_Measure£º" + temp);
+            System.out.println("ï¿½ï¿½" + i + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F_Measureï¿½ï¿½" + temp);
             sums += temp;
         }
 
-        System.out.println("RP_ARTµ±Ç°²ÎÊı£ºdimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
-        System.out.println("Fm: " + sums / (double) times + "  ÇÒ×îºóµÄFart/Frt: "
-                + sums / (double) times * failrate);// Æ½¾ùÃ¿´ÎÊ¹ÓÃµÄ²âÊÔÓÃÀıÊı
+        System.out.println("RP_ARTï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("Fm: " + sums / (double) times + "  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fart/Frt: "
+                + sums / (double) times * failrate);// Æ½ï¿½ï¿½Ã¿ï¿½ï¿½Ê¹ï¿½ÃµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     @Override
@@ -65,7 +65,7 @@ public class RP_ART extends AbstractART{
                 maxSizeLeaf = leaf;
             }
         }
-        //Éú³É10¸ö²âÊÔÓÃÀı£¬ÕÒµ½ÓëÒÑ²âÊÔ¾àÀë×î´óµÄ²âÊÔÓÃÀı¡£
+        //ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ñ²ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         candidate = Testcase.generateCandates(10, maxSizeLeaf.getDomainBoundary().getList());
         if (maxSizeLeaf.gettestcaseList().isEmpty()) {
             partitionTree.addTestcase(candidate.get(0));
@@ -83,7 +83,7 @@ public class RP_ART extends AbstractART{
         }
         partitionTree.addTestcase(maxDistanceTestcase);
 
-        //½øĞĞËæ»ú»®·Ö
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Testcase divide = new Testcase();
         Random r = new Random();
         int r1 = r.nextInt(5);

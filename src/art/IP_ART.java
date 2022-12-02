@@ -2,10 +2,7 @@ package art;
 
 import faultZone.FaultZone;
 import faultZone.FaultZone_Point_Square;
-import util.PartitionTree;
-import util.DomainBoundary;
-import util.Parameters;
-import util.Testcase;
+import util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,44 +61,46 @@ public class IP_ART extends AbstractART {
         // 找到多个分区中不包含测试用例的分区
         PartitionTree resultLeaf = partitionLeaves.get(0);
         boolean flag = true; // 判断所选择分区是否符合要求
-        for(PartitionTree goalTestcaseLeaf : partitionLeaves){
+        for (PartitionTree goalTestcaseLeaf : partitionLeaves) {
             flag = true;
             for (PartitionTree partitionLeaf : partitionLeaves) {
-            if(goalTestcaseLeaf != partitionLeaf){
-                List<Dimension> goalDimensionList = goalTestcaseLeaf.domainBoundary.BoundaryData;
-                List<Dimension> tempDimensionList = partitionLeaf.domainBoundary.BoundaryData;
-                Dimension goalDimensionX = goalTestcaseLeaf.domainBoundary.BoundaryData[0];
-                Dimension tempDimensionX = partitionLeaf.domainBoundary.BoundaryData[0];
-                
-                
-                boolean isTouched = true;// 判断两个分区是否相邻
-                for(int i = 0 ; i<goalDimensionList.size() ; i++){
-                    Dimension goalDimension = goalDimensionList[i];
-                    Dimension tempDimension = tempDimensionList[i];
-                    if(!((goalDimension.max == tempDimension.max) || (goalDimension.max == tempDimension.min) || (goalDimension.min == tempDimension.max))){
-                        isTouched = false;
+                if (goalTestcaseLeaf != partitionLeaf) {
+                    List<Dimension> goalDimensionList = goalTestcaseLeaf.getDomainBoundary().getList();
+                    List<Dimension> tempDimensionList = partitionLeaf.getDomainBoundary().getList();
+                    Dimension goalDimensionX = goalTestcaseLeaf.getDomainBoundary().getList().get(0);
+                    Dimension tempDimensionX = partitionLeaf.getDomainBoundary().getList().get(0);
+
+
+                    boolean isTouched = true;// 判断两个分区是否相邻
+                    for (int i = 0; i < goalDimensionList.size(); i++) {
+                        Dimension goalDimension = goalDimensionList.get(i);
+                        Dimension tempDimension = tempDimensionList.get(i);
+                        if (!((goalDimension.getMax() == tempDimension.getMax()) ||
+                                (goalDimension.getMax() == tempDimension.getMin()) ||
+                                (goalDimension.getMin() == tempDimension.getMax()))) {
+                            isTouched = false;
+                            break;
+                        }
+                    }
+
+                    if (isTouched == true) {
+                        flag = false;
                         break;
                     }
-                 }
+                }
+            }
 
-                 if(isTouched == true){
-                    flag = false;
-                    break;
-                 }
+            if (flag == true) {
+                resultLeaf = goalTestcaseLeaf;
+                break;
             }
         }
-        
-        if(flag == true){
-            resultLeaf = goalTestcaseLeaf;
-            break;
-        }
-}
-        
+
         //若每个分区都包含有测试用例，则将目前的所有分区再一分为二，并随机选择一个新的叶子节点添加用例
         if (flag == false) {
             for (PartitionTree partitionLeaf : partitionLeaves)
                 partitionLeaf.partition(2, null);
-                return bestCandidate();
+            return bestCandidate();
         }
         Testcase testcase = Testcase.generateCandates(1, resultLeaf.getDomainBoundary().getList()).get(0);
         candidate.add(testcase);

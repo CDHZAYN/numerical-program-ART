@@ -6,6 +6,7 @@ import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
 
+import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -149,8 +150,9 @@ public class RealCodesDriver {
             if (originResult == mutantResult)
                 rst = true;
         } catch (Exception e) {
+            System.out.println("error occurred!");
             e.printStackTrace();
-            rst = false;
+            return false;
         }
         return rst;
     }

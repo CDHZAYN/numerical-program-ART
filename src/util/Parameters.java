@@ -15,7 +15,7 @@ public interface Parameters {
 	int testRoundNum = 1000;
 
 	//当数值列表作为真实程序参数时（如List<byte>），列表中应有多少个元素
-	int listParamNum = 100;
+	int listParamNum = 10;
 
 	//entry的效率测试要求得到多少个测试用例才停止
 	int efficiencyTestcaseNum = 100;
