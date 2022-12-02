@@ -76,6 +76,12 @@ public class DomainBoundary {
 	public void addDimension(Dimension newDim) {
 		this.BoundaryData.add(newDim);
 	}
+	public void deleteTestcase(Testcase tc){
+		if(this.isInside(tc)){
+			this.BoundaryData.remove(tc);
+		}
+
+	}
 
 	public ArrayList<Dimension> getList() {
 		return this.BoundaryData;
