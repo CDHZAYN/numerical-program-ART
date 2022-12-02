@@ -7,21 +7,22 @@ import faultZone.FaultZone_Point_Square;
 import util.*;
 
 /**
- * RRT（2004）
- * 论文：A revisit of adaptive random testing by restriction,
+ * KD-RRT（2021）
+ * 论文：KD-RRT: Restricted Random Testing based on K-Dimensional Tree
  * 大致方法：
  * 1. 随机选择一个用例进行测试
- * 2. 设置一个限制倍数r
- * 3. 利用r计算以之前测试的用例为中心的排除半径
+ * 2. 设置一个限制倍数R
+ * 3. 利用R和输入域计算以之前测试的用例为中心的排除半径
  * 4. 将半径内的所有用例排除，生成新的测试用例域，从中随机选择下一个用例
  */
 
-public class    RRT extends AbstractART{
+public class KD_RRT extends AbstractART{
 
-    double rate = 0.8;
+    double R = 0.75;
+    double PI = 3.14;
 
     //用输入来初始化该算法
-    public RRT(DomainBoundary inputBoundary) {
+    public KD_RRT(DomainBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
     }
 
@@ -56,12 +57,11 @@ public class    RRT extends AbstractART{
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }
 
-    public Double calR(double rate, Testcase tc){
+    public Double update_r(double rate, Testcase tc){
         ArrayList<Double>Tc=tc.list;
         Double size = Collections.max(Tc) - Collections.min(Tc);
-        System.out.println(size);
         int len = Tc.size();
-        Double r = Math.pow(rate*size,1.0/len);
+        Double r = Math.pow(R*size/PI,0.5);
         return r;
     }
 
@@ -69,8 +69,7 @@ public class    RRT extends AbstractART{
     public Testcase bestCandidate() {
         this.candidate.clear();
         Testcase tc = new Testcase(inputBoundary);
-        DomainBoundary newBoundary = inputBoundary;
-        double r = calR(rate , tc);
+        double r = update_r(R , tc);
         int count = 0;
         while(count < inputBoundary.getList().size() && ((inputBoundary.getList().get(count).getMin() + r)> tc.getValue(count) || (inputBoundary.getList().get(count).getMax() - r) < tc.getValue(count))) {
             count++;
