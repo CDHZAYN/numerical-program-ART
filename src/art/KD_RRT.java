@@ -44,15 +44,15 @@ public class KD_RRT extends AbstractART{
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            RRT rrt = new RRT(bd);
+            KD_RRT kd_rrt = new KD_RRT(bd);
             //小run一下
-            temp = rrt.runWithFaultZone(fz);
+            temp = kd_rrt.runWithFaultZone(fz);
             result.add(temp);
             System.out.println("第" + i + "次试验F_Measure：" + temp);
             sums += temp;
         }
 
-        System.out.println("RRT当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("KD_RRT当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }

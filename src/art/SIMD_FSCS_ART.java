@@ -83,15 +83,15 @@ public class SIMD_FSCS_ART extends AbstractART {
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            FSCS_ART fscs_block = new FSCS_ART(bd);
+            SIMD_FSCS_ART simd_fscs_art = new SIMD_FSCS_ART(bd);
             //小run一下
-            temp = fscs_block.runWithFaultZone(fz);
+            temp = simd_fscs_art.runWithFaultZone(fz);
             result.add(temp);
             System.out.println("第" + i + "次试验F_Measure：" + temp);
             sums += temp;
         }
 
-        System.out.println("FSCS_block当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate); //输出当前参数信息
+        System.out.println("SIMD_FSCS_ART当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate); //输出当前参数信息
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
 

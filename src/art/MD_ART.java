@@ -45,21 +45,21 @@ public class MD_ART extends AbstractART{
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            RRT rrt = new RRT(bd);
+            MD_ART  md_art = new MD_ART(bd);
             //小run一下
-            temp = rrt.runWithFaultZone(fz);
+            temp = md_art.runWithFaultZone(fz);
             result.add(temp);
             System.out.println("第" + i + "次试验F_Measure：" + temp);
             sums += temp;
         }
 
-        System.out.println("RRT当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("MD_ART当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }
     public Testcase MR(Testcase tc){
-        for(int x=0;x< tc.size();x++){
-            double tmp = tc.getValue(x)-1;
+        for(int x=0;x<tc.list.size();x++){
+            double tmp = tc.getValue(x);
             tc.setValue(x,tmp);
         }
         return tc;
@@ -77,6 +77,12 @@ public class MD_ART extends AbstractART{
         this.candidate.clear();
         this.candidate = Testcase.generateCandates(10,inputBoundary.getList());//候选testcase
         ArrayList<Testcase> E = this.total;
+        if( E.size() == 0){
+            Testcase tc = new Testcase(inputBoundary);
+            Testcase new_tc = MR(tc);
+            E.add(tc);
+            E.add(new_tc);
+        }
         double min_dis = Double.MAX_VALUE;
         Testcase aim_testcase = null;
         for(int i=0;i<this.candidate.size();i++){
