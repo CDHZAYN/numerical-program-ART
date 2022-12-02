@@ -6,17 +6,21 @@ import util.PartitionTree;
 import util.DomainBoundary;
 import util.Parameters;
 import util.Testcase;
+import util.Dimension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * B(Bisection)-ART（2004）
- * 论文：Adaptive Random Testing Through Dynamic Partitioning
+ * IP-ART（2011）
+ * 论文：On Adaptive Random Testing Through Iterative Partitioning
  * 大致方法：
- * 1、然后平均划分输入空间，然后分别在每个分区中选择一个测试用例，
- * 2、再根据测试用例将每个分区一分为二（均分），然后在被均分后的分区中不包含测试用例的分区选择测试用例，
- * 3、不断循环过程2以确保测试用例分布广泛
+ * 1、在输入空间中随机输入一个测试用例，然后将输入空间细分为n*n的网格，将被细分后的输入空间分成三种：
+ *    (1)占领单元(occupied cells)：已经包含测试用例的单元；
+ *    (2)相邻单元(adjacent cells)：与占领单元相邻的单元；
+ *    (3)候选单元(candidate cells)：新测试用例产生的单元。
+ * 2、在候选单元中随机生成一个测试用例来保证其与上一个测试用例的距离足够远，
+ * 3、不断循环过程2，若找不到候选单元，则将网格细分为(n+1)*(n+1)，然后继续循环过程2直到找到故障为止。
  */
 public class IP_ART extends AbstractART {
 
@@ -61,24 +65,21 @@ public class IP_ART extends AbstractART {
     public Testcase bestCandidate() {
         candidate.clear();
         List<PartitionTree> partitionLeaves = partitionTree.getLeaveTreeNodes();
-        // 找到多个分区中不包含测试用例的分区
         PartitionTree resultLeaf = partitionLeaves.get(0);
         boolean flag = true; // 判断所选择分区是否符合要求
+
+        // 依次拿所有划分的范围来进行比较来判断两个划分是否相邻，直到找到候选单元为止
         for(PartitionTree goalTestcaseLeaf : partitionLeaves){
             flag = true;
             for (PartitionTree partitionLeaf : partitionLeaves) {
             if(goalTestcaseLeaf != partitionLeaf){
-                List<Dimension> goalDimensionList = goalTestcaseLeaf.domainBoundary.BoundaryData;
-                List<Dimension> tempDimensionList = partitionLeaf.domainBoundary.BoundaryData;
-                Dimension goalDimensionX = goalTestcaseLeaf.domainBoundary.BoundaryData[0];
-                Dimension tempDimensionX = partitionLeaf.domainBoundary.BoundaryData[0];
-                
-                
+                List<Dimension> goalDimensionList = goalTestcaseLeaf.getDomainBoundary().getList();
+                List<Dimension> tempDimensionList = partitionLeaf.getDomainBoundary().getList();
                 boolean isTouched = true;// 判断两个分区是否相邻
                 for(int i = 0 ; i<goalDimensionList.size() ; i++){
-                    Dimension goalDimension = goalDimensionList[i];
-                    Dimension tempDimension = tempDimensionList[i];
-                    if(!((goalDimension.max == tempDimension.max) || (goalDimension.max == tempDimension.min) || (goalDimension.min == tempDimension.max))){
+                    Dimension goalDimension = goalDimensionList.get(i);
+                    Dimension tempDimension = tempDimensionList.get(i);
+                    if(!((goalDimension.getMax() == tempDimension.getMax()) || (goalDimension.getMax() == tempDimension.getMin()) || (goalDimension.getMin() == tempDimension.getMax()))){
                         isTouched = false;
                         break;
                     }
@@ -97,7 +98,7 @@ public class IP_ART extends AbstractART {
         }
 }
         
-        //若每个分区都包含有测试用例，则将目前的所有分区再一分为二，并随机选择一个新的叶子节点添加用例
+        //若找不到候选分区，则将原划分进一步细分(为了算法简化，此处采用整体二分)并再次调用该函数寻找候选分区
         if (flag == false) {
             for (PartitionTree partitionLeaf : partitionLeaves)
                 partitionLeaf.partition(2, null);

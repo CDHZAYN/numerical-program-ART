@@ -17,6 +17,8 @@ public class PartitionTree {
     // 该划分下的所有测试用例
     private List<Testcase> testcaseList = new ArrayList<>();
 
+    private String color;
+
     // 用于创建根划分树节点
     public PartitionTree(DomainBoundary domainBoundary) {
         this.domainBoundary = domainBoundary;
@@ -171,6 +173,14 @@ public class PartitionTree {
 
     public int getTestcaseNum() {
         return testcaseList.size();
+    }
+
+    public void setcolor(String Color){
+        this.color = Color;
+    }
+
+    public String getcolor(){
+        return this.color;
     }
 
 

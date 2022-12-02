@@ -16,7 +16,7 @@ public abstract class AbstractEntry {
 
     private ArrayList<Double> result = new ArrayList<>();
 
-    static String testingART = "IP_ART";
+    static String testingART = "FP_ART";
 
     public double testEfficiency(Class<? extends AbstractART> art, DomainBoundary inputBoundary, int testcaseNum) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         FSCS_ART fscs;
