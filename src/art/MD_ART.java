@@ -1,30 +1,32 @@
 package art;
 
-import java.util.*;
-
 import faultZone.FaultZone;
 import faultZone.FaultZone_Point_Square;
-import util.*;
+import util.DomainBoundary;
+import util.Parameters;
+import util.Testcase;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+//TODO: 算法介绍
 /**
- * RRT（2004）
- * 论文：A revisit of adaptive random testing by restriction,
+ * 此处附上对该算法的论文、年份、内容等说明。例：
+ * MD_ART（2022）
+ * 论文：A Test Case Generation Method Based on Adaptive Random Testing and Metamorphic Relation
  * 大致方法：
- * 1. 随机选择一个用例进行测试
- * 2. 设置一个限制倍数r
- * 3. 利用r计算以之前测试的用例为中心的排除半径
- * 4. 将半径内的所有用例排除，生成新的测试用例域，从中随机选择下一个用例
+ * 1.随机生成一个testcase e 再通过变异关系生成 e'
+ * 2.将e和e'放入E
+ * 3.随机生成多个测试用例，并得到对应变异测试用例，计算与E最短距离
+ * 4.返回相应测试用例
  */
+public class MD_ART extends AbstractART{
 
-public class    RRT extends AbstractART{
+    private DomainBoundary inputBoundary;
 
-    double rate = 0.8;
-
-    //用输入来初始化该算法
-    public RRT(DomainBoundary inputBoundary) {
+    public MD_ART(DomainBoundary inputBoundary){
         this.inputBoundary = inputBoundary;
     }
-
 
     public static void main(String args[]){
         int times = 3000;//一次执行，该算法就重复3000次
@@ -55,28 +57,41 @@ public class    RRT extends AbstractART{
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }
-
-    public Double calR(double rate, Testcase tc){
-        ArrayList<Double>Tc=tc.list;
-        Double size = Collections.max(Tc) - Collections.min(Tc);
-        System.out.println(size);
-        int len = Tc.size();
-        Double r = Math.pow(rate*size,1.0/len);
-        return r;
+    public Testcase MR(Testcase tc){
+        for(int x=0;x< tc.size();x++){
+            double tmp = tc.getValue(x)-1;
+            tc.setValue(x,tmp);
+        }
+        return tc;
     }
-
+    public double getDistance(Testcase a,ArrayList<Testcase>b){
+        double distance = 0;
+        for(int i=0;i<b.size();i++){
+            double distance_of_i = Testcase.Distance(a,b.get(i));
+            distance += distance_of_i;
+        }
+        return distance/b.size();
+    }
     @Override
     public Testcase bestCandidate() {
         this.candidate.clear();
-        Testcase tc = new Testcase(inputBoundary);
-        DomainBoundary newBoundary = inputBoundary;
-        double r = calR(rate , tc);
-        int count = 0;
-        while(count < inputBoundary.getList().size() && ((inputBoundary.getList().get(count).getMin() + r)> tc.getValue(count) || (inputBoundary.getList().get(count).getMax() - r) < tc.getValue(count))) {
-            count++;
-            tc = new Testcase(inputBoundary);
+        this.candidate = Testcase.generateCandates(10,inputBoundary.getList());//候选testcase
+        ArrayList<Testcase> E = this.total;
+        double min_dis = Double.MAX_VALUE;
+        Testcase aim_testcase = null;
+        for(int i=0;i<this.candidate.size();i++){
+            Testcase tc_i = this.candidate.get(i);
+            Testcase newtc_i = MR(tc_i);
+            if(getDistance(tc_i,E)<min_dis){
+                min_dis = getDistance(tc_i,E);
+                aim_testcase = tc_i;
+            }
+            if(getDistance(newtc_i,E)<min_dis){
+                min_dis = getDistance(newtc_i,E);
+                aim_testcase = newtc_i;
+            }
         }
-        return tc;
+        return aim_testcase;
     }
 
     @Override
