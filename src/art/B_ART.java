@@ -11,21 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAC—ART（2013 13th International Conference on Quality Software）
- * 论文：The ART of Divide and Conquer
+ * B(Bisection)-ART（2004）
+ * 论文：Adaptive Random Testing Through Dynamic Partitioning
  * 大致方法：
- * 1、平均划分输入空间，
- * 2、找到其中已测试输入最少的划分进行测试，
- * 3、不断循环2直到每个划分中的已测试输入均达到指定数量。
- * 4、再次平均划分每个划分。
+ * 1、然后平均划分输入空间，然后分别在每个分区中选择一个测试用例，
+ * 2、再根据测试用例将每个分区一分为二（均分），然后在被均分后的分区中不包含测试用例的分区选择测试用例，
+ * 3、不断循环过程2以确保测试用例分布广泛
  */
-public class DAC_ART extends AbstractART {
-
-    int maxTestcasePerNode = 16;
+public class B_ART extends AbstractART {
 
     public PartitionTree partitionTree;
 
-    public DAC_ART(DomainBoundary inputBoundary) {
+    public B_ART(DomainBoundary inputBoundary) {
         this.inputBoundary = inputBoundary;
         partitionTree = new PartitionTree(inputBoundary);
     }
@@ -47,15 +44,15 @@ public class DAC_ART extends AbstractART {
         for (int i = 1; i <= times; i++) {
             //指定使用这种fault zone
             FaultZone fz = new FaultZone_Point_Square(bd, failrate);
-            DAC_ART dac_ART = new DAC_ART(bd);
+            B_ART b_ART = new B_ART(bd);
             //小run一下
-            temp = dac_ART.runWithFaultZone(fz);
+            temp = b_ART.runWithFaultZone(fz);
             result.add(temp);
             System.out.println("第" + i + "次试验F_Measure：" + temp);
             sums += temp;
         }
 
-        System.out.println("DAC_ART当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
+        System.out.println("B_ART当前参数：dimension = " + dimension + "   lp = " + p + "   failure-rate = " + failrate);
         System.out.println("Fm: " + sums / (double) times + "  且最后的Fart/Frt: "
                 + sums / (double) times * failrate);// 平均每次使用的测试用例数
     }
@@ -64,21 +61,21 @@ public class DAC_ART extends AbstractART {
     public Testcase bestCandidate() {
         candidate.clear();
         List<PartitionTree> partitionLeaves = partitionTree.getLeaveTreeNodes();
-        // 找到包含已测试用例最少的划分
-        PartitionTree minTestcaseLeaf = partitionLeaves.get(0);
+        // 找到多个分区中不包含测试用例的分区
+        PartitionTree noneTestcaseLeaf = partitionLeaves.get(0);
         for (PartitionTree partitionLeaf : partitionLeaves) {
-            if (minTestcaseLeaf.getTestcaseNum() > partitionLeaf.getTestcaseNum()
-                    && partitionLeaf.getTestcaseNum() < maxTestcasePerNode) {
-                minTestcaseLeaf = partitionLeaf;
+            if (partitionLeaf.getTestcaseNum() == 0) {
+                noneTestcaseLeaf = partitionLeaf;
+                break;
             }
         }
-        //若找不到，则进行一次集体划分，随机选择一个新的叶子节点添加用例
-        if (minTestcaseLeaf.getTestcaseNum() >= maxTestcasePerNode) {
+        //若每个分区都包含有测试用例，则将目前的所有分区再一分为二，并随机选择一个新的叶子节点添加用例
+        if (noneTestcaseLeaf.getTestcaseNum() != 0) {
             for (PartitionTree partitionLeaf : partitionLeaves)
                 partitionLeaf.partition(2, null);
-            minTestcaseLeaf = minTestcaseLeaf.getOneLeaf();
+            noneTestcaseLeaf = noneTestcaseLeaf.getOneLeaf();
         }
-        Testcase testcase = Testcase.generateCandates(1, minTestcaseLeaf.getDomainBoundary().getList()).get(0);
+        Testcase testcase = Testcase.generateCandates(1, noneTestcaseLeaf.getDomainBoundary().getList()).get(0);
         candidate.add(testcase);
         partitionTree.addTestcase(testcase);
         return testcase;
