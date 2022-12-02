@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class DAC_ART extends AbstractART {
 
-    int maxTestcasePerNode = 1;
+    int maxTestcasePerNode = 16;
 
     public PartitionTree partitionTree;
 
